@@ -8,8 +8,8 @@ namespace Akimov.MinerMVP.Models {
         public event EventHandler<ModelUpdatedArgs> ModelUpdated = delegate { };
         Dictionary<Position, Cell> mineField;        
         HashSet<Position> bombs;        
-        Random random;
         HashSet<Cell> quereForOpen;
+        Random random;
         bool isStarted;
 
         public MinerModel(MineFieldSettings setting) {
@@ -30,8 +30,13 @@ namespace Akimov.MinerMVP.Models {
                 if (action == CellActionType.Open && cell.CellType == CellType.Closed) {
                     OpenCell(cell);
                 }
-                if (action == CellActionType.NextMarker) {
-                    NextMarker(cell);
+                else {
+                    if (action == CellActionType.NextMarker) {
+                        NextMarker(cell);
+                    }
+                    else {
+                        return;
+                    }
                 }
                 OnModelUpdated();
             }
