@@ -75,8 +75,7 @@ namespace Akimov.MinerMVP.Views {
                         CELL_SIZE * cell.Position.Column + 1,
                         CELL_SIZE * cell.Position.Row + 1);
                 }
-            }
-            picMineField.Cursor = Cursors.Default;
+            }            
             picMineField.Image = bufferForPaint;
         }
 
@@ -86,7 +85,6 @@ namespace Akimov.MinerMVP.Views {
         }
 
         void OnCellAction(CellActionArgs e) {
-            picMineField.Cursor = Cursors.WaitCursor;
             CellAction(this, e);
         }
 
