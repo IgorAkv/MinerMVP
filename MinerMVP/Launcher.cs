@@ -1,4 +1,7 @@
-﻿using System.Windows.Forms;
+﻿using Akimov.MinerMVP.Models;
+using Akimov.MinerMVP.Presenters;
+using Akimov.MinerMVP.Views;
+using System.Windows.Forms;
 
 namespace Akimov.MinerMVP {
     class Launcher {
@@ -6,7 +9,11 @@ namespace Akimov.MinerMVP {
         static void Main() {
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-            Application.Run(new LauncherForm());
+
+            MinerView minerView = new MinerView();           
+            MinerPresenter presenter = new MinerPresenter(minerView);            
+            presenter.Start();
+            Application.Run(minerView);
         }
     }
 }

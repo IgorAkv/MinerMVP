@@ -3,9 +3,9 @@ namespace Akimov.MinerMVP.Models {
     public class MineFieldSettings {
 
         public MineFieldSettings() : this(
-            MineFieldConstant.HEIGHT_EASY, 
-            MineFieldConstant.WIDTH_EASY, 
-            MineFieldConstant.BOMB_RATIO_EASY,
+            MineFieldConstants.ROWS_EASY, 
+            MineFieldConstants.COLUMNS_EASY, 
+            MineFieldConstants.BOMB_RATIO_EASY,
             false) {
         }
 

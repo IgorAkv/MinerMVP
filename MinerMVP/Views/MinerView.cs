@@ -22,24 +22,52 @@ namespace Akimov.MinerMVP.Views {
             { CellType.Eight_Bomb_Around, Resources.Eight}};
         const int CELL_SIZE = 33;
         public event EventHandler<CellActionArgs> CellAction = delegate { };
+        public event EventHandler Settings = delegate { };
+        public event EventHandler NewGame = delegate { };
+        public event EventHandler Exit = delegate { };
+
         Bitmap bufferForPaint;
         List<Cell> updatedCells;
+        MineFieldSettings settings;
 
-        public MinerView(MineFieldSettings setting) {
+        public MinerView() {
             InitializeComponent();
-            Settings = setting;
+            settings = new MineFieldSettings();
             PrepareMineField();
         }
 
-        MineFieldSettings Settings { get; }
+        public void StartNewGame(MineFieldSettings setting) {
+            settings = setting;
+            PrepareMineField();
+        }
+
+        public void MineFieldUpdate(List<Cell> updatedCells) {
+            this.updatedCells = updatedCells;
+            Refresh();
+        }
+
+        public void GameOver() {
+            UnSubscribeEvents();
+            picMineField.Cursor = Cursors.No;
+            itemNewGame.Select();
+            
+        }
 
         void PrepareMineField() {
+            UnSubscribeEvents();
             MaximumSize = Screen.PrimaryScreen.Bounds.Size;
+            bufferForPaint = null;
             picMineField.Size = new Size(
-                Settings.Columns * CELL_SIZE + 1,
-                Settings.Rows * CELL_SIZE + 1);
-            Text = String.Format(Localizer.MINER_VIEW_NAME, Settings.Columns, Settings.Rows);                
+                settings.Columns * CELL_SIZE + 1,
+                settings.Rows * CELL_SIZE + 1);
+            //чтобы форма правильно отресайзилась
+            this.Size = new Size(0, 0);
+            //и отцентировалась
+            this.Location = new Point((Screen.PrimaryScreen.Bounds.Width - this.Width) / 2,
+                (Screen.PrimaryScreen.Bounds.Height - this.Height) / 2);
+            Text = String.Format(UIConstants.MINER_VIEW_NAME, settings.Columns, settings.Rows);                
             SubscribeEvents();
+            picMineField.Cursor = Cursors.Default;
         }
 
         void SubscribeEvents() {
@@ -57,11 +85,7 @@ namespace Akimov.MinerMVP.Views {
                 OnCellAction(new CellActionArgs(row, column, CellActionType.NextMarker));
             }
         }
-
-        void SetMaximumSizeView() {
-            this.MaximumSize = Screen.PrimaryScreen.Bounds.Size;
-        }
-
+        
         void PaintMineField(object sender, PaintEventArgs e) {
             if (updatedCells == null) {
                 return;
@@ -78,24 +102,38 @@ namespace Akimov.MinerMVP.Views {
             }            
             picMineField.Image = bufferForPaint;
         }
-
-        public void MineFieldUpdate(List<Cell> updatedCells) {
-            this.updatedCells = updatedCells;
-            Refresh();
-        }
-
         void OnCellAction(CellActionArgs e) {
             CellAction(this, e);
-        }
-
-        public void GameOver() {
-            UnSubscribeEvents();
-            this.Close();
         }
 
         void UnSubscribeEvents() {
             picMineField.Paint -= PaintMineField;
             picMineField.MouseUp -= MineField_MouseUp;
+        }
+
+        void itemNewGame_Click(object sender, EventArgs e) {
+            OnNewGame();
+        }
+
+        void OnNewGame() {
+            NewGame(this, null);            
+        }
+
+        void itemSettings_Click(object sender, EventArgs e) {
+            OnSettingsOpen();
+        }
+
+        void OnSettingsOpen() {
+            Settings(this, null);
+        }
+
+        void itemExit_Click(object sender, EventArgs e) {
+            OnExit();
+            Close();
+        }
+
+        void OnExit() {
+            Exit(this, null);
         }
     }
 }

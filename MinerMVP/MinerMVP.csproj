@@ -43,7 +43,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Launcher.cs" />
-    <Compile Include="Localizer.cs" />
+    <Compile Include="Views\Util\UIConstants.cs" />
     <Compile Include="Models\Cell.cs" />
     <Compile Include="Models\CellActionType.cs" />
     <Compile Include="Models\Position.cs" />
@@ -51,18 +51,12 @@
     <Compile Include="Models\GameOverType.cs" />
     <Compile Include="Models\GameOverArgs.cs" />
     <Compile Include="Models\IMinerModel.cs" />
-    <Compile Include="Models\MineFieldConstant.cs" />
+    <Compile Include="Models\Util\MineFieldConstants.cs" />
     <Compile Include="Models\MineFieldSettings.cs" />
     <Compile Include="Models\MinerModel.cs" />
     <Compile Include="Models\ModelUpdatedArgs.cs" />
     <Compile Include="Presenters\IMinerPresenter.cs" />
     <Compile Include="Presenters\MinerPresenter.cs" />
-    <Compile Include="LauncherForm.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="LauncherForm.Designer.cs">
-      <DependentUpon>LauncherForm.cs</DependentUpon>
-    </Compile>
     <Compile Include="Properties\Resources.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -77,6 +71,12 @@
     </Compile>
     <Compile Include="Views\IGameOverView.cs" />
     <Compile Include="Views\IMinerView.cs" />
+    <Compile Include="Views\SettingView.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Views\SettingView.Designer.cs">
+      <DependentUpon>SettingView.cs</DependentUpon>
+    </Compile>
     <Compile Include="Views\MinerView.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -92,15 +92,15 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="LauncherForm.resx">
-      <DependentUpon>LauncherForm.cs</DependentUpon>
-    </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
     <EmbeddedResource Include="Views\GameOverView.resx">
       <DependentUpon>GameOverView.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Views\SettingView.resx">
+      <DependentUpon>SettingView.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Views\MinerView.resx">
       <DependentUpon>MinerView.cs</DependentUpon>
@@ -154,5 +154,6 @@
   <ItemGroup>
     <None Include="Resources\Bomb.ico" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

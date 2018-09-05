@@ -55,6 +55,8 @@
             this.ClientSize = new System.Drawing.Size(256, 143);
             this.Controls.Add(this.messageBox);
             this.Controls.Add(this.btnClose);
+            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
+            this.MaximizeBox = false;
             this.Name = "GameOverView";
             this.ShowIcon = false;
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
