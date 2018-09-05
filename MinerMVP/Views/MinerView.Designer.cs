@@ -36,7 +36,7 @@
             // picMineField
             // 
             this.picMineField.BackColor = System.Drawing.Color.Black;
-            this.picMineField.Location = new System.Drawing.Point(0, 27);
+            this.picMineField.Location = new System.Drawing.Point(0, 24);
             this.picMineField.Margin = new System.Windows.Forms.Padding(0);
             this.picMineField.Name = "picMineField";
             this.picMineField.Size = new System.Drawing.Size(181, 105);
@@ -46,6 +46,7 @@
             // menu
             // 
             this.menu.AllowMerge = false;
+            this.menu.GripMargin = new System.Windows.Forms.Padding(0);
             this.menu.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.itemNewGame,
             this.itemSettings,
@@ -54,7 +55,6 @@
             this.menu.Name = "menu";
             this.menu.Size = new System.Drawing.Size(181, 24);
             this.menu.TabIndex = 1;
-            this.menu.Text = "menuStrip1";
             // 
             // itemNewGame
             // 
@@ -83,10 +83,9 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.AutoScroll = true;
             this.AutoSize = true;
-            this.ClientSize = new System.Drawing.Size(181, 133);
+            this.ClientSize = new System.Drawing.Size(181, 130);
             this.Controls.Add(this.picMineField);
             this.Controls.Add(this.menu);
-            this.DoubleBuffered = true;
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.MainMenuStrip = this.menu;

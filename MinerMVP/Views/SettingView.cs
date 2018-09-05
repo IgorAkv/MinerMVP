@@ -7,6 +7,10 @@ using System.Windows.Forms;
 namespace Akimov.MinerMVP.Views {
     public partial class SettingView : Form {
         Action<MineFieldSettings> SetSetting;
+        //
+        // В конструктор окна настроек передаются текущие настройки игры и ссылка на метод,
+        // в который при закрытии будут переданы, параметром, измененные настройки.
+        //
         public SettingView(MineFieldSettings settings, Action<MineFieldSettings> actionSetSetting) {
             InitializeComponent();
             this.SetSetting = actionSetSetting;
@@ -16,7 +20,7 @@ namespace Akimov.MinerMVP.Views {
             chBoxCommanderMode.Checked = settings.CommanderMode;
             SetDifficultyLevel(settings);
         }
-
+        //установка уровня сложности на основании полученных настроек.
         void SetDifficultyLevel(MineFieldSettings settings) {
             if (settings.Rows == MineFieldConstants.ROWS_EASY &&
                 settings.Columns == MineFieldConstants.COLUMNS_EASY &&
@@ -105,7 +109,9 @@ namespace Akimov.MinerMVP.Views {
             chBoxCommanderMode.Checked = false;
             chBoxCommanderMode.Enabled = false;
         }
-                        
+                    
+        // Про нажатии на кнопку ОК, форма вызывает, переданный презентером метод (action),  
+        // в который передает новые настройки. И закрывается.
         void btnOk_Click(object sender, EventArgs e) {
             SetSetting(new MineFieldSettings(Rows, Columns, BombRatio, CommanderMode));
             Close();
