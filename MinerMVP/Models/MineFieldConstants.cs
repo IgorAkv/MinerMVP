@@ -1,6 +1,6 @@
 ﻿
 namespace Akimov.MinerMVP.Models {
-    static class MineFieldConstant {
+    static class MineFieldConstants {
         public const int HEIGHT_MIN = 7;
         public const int HEIGHT_EASY = 10;
         public const int HEIGHT_MEDIUM = 15;

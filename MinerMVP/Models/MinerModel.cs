@@ -9,24 +9,22 @@ namespace Akimov.MinerMVP.Models {
         Dictionary<Position, Cell> mineField;        
         HashSet<Position> bombs;        
         HashSet<Cell> quereForOpen;
+        MineFieldSettings setting;
         Random random;
-        bool isStarted;
 
-        public MinerModel(MineFieldSettings setting) {
-            Setting = setting;
-            Initialize();
+        public MinerModel() {            
+            random = new Random();
         }
         
-        MineFieldSettings Setting { get; }
-
-        public void Start() {
-            CreateMineField();
-            isStarted = true;
+        public void Start(MineFieldSettings setting) {
+            this.setting = setting;
+            Initialize();
+            CreateMineField();            
         }
                 
         public void CellAction(int row, int col, CellActionType action) {
             Cell cell;
-            if (isStarted && mineField.TryGetValue(new Position(row, col), out cell)) {
+            if (mineField.TryGetValue(new Position(row, col), out cell)) {
                 if (action == CellActionType.Open && cell.CellType == CellType.Closed) {
                     OpenCell(cell);
                 }
@@ -54,17 +52,15 @@ namespace Akimov.MinerMVP.Models {
 
         void Initialize() {
             mineField = new Dictionary<Position, Cell>();
-            bombs = new HashSet<Position>();            
-            random = new Random();
-            isStarted = false;
+            bombs = new HashSet<Position>();
         }
 
         void CreateMineField() {
-            for (int row = 0; row < Setting.Rows; row++) {
-                for (int col = 0; col < Setting.Columns; col++) {
+            for (int row = 0; row < setting.Rows; row++) {
+                for (int col = 0; col < setting.Columns; col++) {
                     Position position = new Position(row, col);
                     mineField.Add(position, new Cell(position, CellType.Closed));
-                    if (random.Next(MineFieldConstant.PERCENT_MAX) < Setting.BombRatio) {
+                    if (random.Next(MineFieldConstants.PERCENT_MAX) < setting.BombRatio) {
                         bombs.Add(position);
                     }
                 }
@@ -73,13 +69,13 @@ namespace Akimov.MinerMVP.Models {
         }         
 
         void CheckGameOver() {            
-            if (!Setting.CommanderMode && mineField.Values.Any(c => c.CellType == CellType.Bomb)) {
+            if (!setting.CommanderMode && mineField.Values.Any(c => c.CellType == CellType.Bomb)) {
                 OnGameOver(GameOverType.Defeat);
             }
             if (mineField.Values.All(c => c.CellType != CellType.Closed) &&
                 bombs.Count() == mineField.Values.Where(c => c.CellType == CellType.Flagged || 
                 c.CellType == CellType.Bomb).Count()) {
-                if (Setting.CommanderMode) {
+                if (setting.CommanderMode) {
                     OnGameOver(GameOverType.VictoryCommander);
                 }
                 else {

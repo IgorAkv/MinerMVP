@@ -51,7 +51,7 @@
     <Compile Include="Models\GameOverType.cs" />
     <Compile Include="Models\GameOverArgs.cs" />
     <Compile Include="Models\IMinerModel.cs" />
-    <Compile Include="Models\MineFieldConstant.cs" />
+    <Compile Include="Models\MineFieldConstants.cs" />
     <Compile Include="Models\MineFieldSettings.cs" />
     <Compile Include="Models\MinerModel.cs" />
     <Compile Include="Models\ModelUpdatedArgs.cs" />
@@ -77,6 +77,12 @@
     </Compile>
     <Compile Include="Views\IGameOverView.cs" />
     <Compile Include="Views\IMinerView.cs" />
+    <Compile Include="Views\SettingView.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Views\SettingView.Designer.cs">
+      <DependentUpon>SettingView.cs</DependentUpon>
+    </Compile>
     <Compile Include="Views\MinerView.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -101,6 +107,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Views\GameOverView.resx">
       <DependentUpon>GameOverView.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Views\SettingView.resx">
+      <DependentUpon>SettingView.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Views\MinerView.resx">
       <DependentUpon>MinerView.cs</DependentUpon>

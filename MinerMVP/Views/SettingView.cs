@@ -4,14 +4,18 @@ using Akimov.MinerMVP.Views;
 using System;
 using System.Windows.Forms;
 
-namespace Akimov.MinerMVP {
-    public partial class LauncherForm : Form {
-        public LauncherForm() {
+namespace Akimov.MinerMVP.Views {
+    public partial class SettingView : Form {
+        Action<MineFieldSettings> SetSetting;
+        public SettingView(MineFieldSettings settings, Action<MineFieldSettings> setSetting) {
             InitializeComponent();
-            boxHeight.Text = MineFieldConstants.HEIGHT_EASY.ToString();
-            textBoxWidth.Text = MineFieldConstants.WIDTH_EASY.ToString();
-            textBoxBombRatio.Text = MineFieldConstants.BOMB_RATIO_EASY.ToString();
-            chBoxCommanderMode.Checked = false;
+            this.SetSetting = setSetting;
+            boxHeight.Text = settings.Rows.ToString();
+            textBoxWidth.Text = settings.Columns.ToString();
+            textBoxBombRatio.Text = settings.BombRatio.ToString();                
+            chBoxCommanderMode.Checked = settings.CommanderMode;
+
+            rBtnSpecial.Checked = settings.CommanderMode;
         }
 
         public int Rows {
@@ -79,16 +83,8 @@ namespace Akimov.MinerMVP {
         }
                         
         void btnOk_Click(object sender, EventArgs e) {
-            MinerView minerView = new MinerView();      
-            MinerPresenter presenter = new MinerPresenter(minerView);
-            this.Hide();            
-            presenter.Start();
-            minerView.ShowDialog();
-            this.Show();
-        }
-
-        void btn_Exit_Click(object sender, EventArgs e) {
+            SetSetting(new MineFieldSettings(Rows, Columns, BombRatio, CommanderMode));
             Close();
-        }
+        }       
     }
 }
