@@ -30,12 +30,12 @@
             this.rBtnMedium = new System.Windows.Forms.RadioButton();
             this.rBtnEasy = new System.Windows.Forms.RadioButton();
             this.btnOk = new System.Windows.Forms.Button();
-            this.boxHeight = new System.Windows.Forms.MaskedTextBox();
-            this.textBoxWidth = new System.Windows.Forms.MaskedTextBox();
-            this.textBoxBombRatio = new System.Windows.Forms.MaskedTextBox();
-            this.label1 = new System.Windows.Forms.Label();
-            this.label2 = new System.Windows.Forms.Label();
-            this.label3 = new System.Windows.Forms.Label();
+            this.txtRows = new System.Windows.Forms.MaskedTextBox();
+            this.txtColumns = new System.Windows.Forms.MaskedTextBox();
+            this.txtBombRatio = new System.Windows.Forms.MaskedTextBox();
+            this.labelRows = new System.Windows.Forms.Label();
+            this.labelColumns = new System.Windows.Forms.Label();
+            this.labelBombRatio = new System.Windows.Forms.Label();
             this.chBoxCommanderMode = new System.Windows.Forms.CheckBox();
             this.groupBox1.SuspendLayout();
             this.SuspendLayout();
@@ -108,7 +108,7 @@
             // 
             this.btnOk.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(255)))), ((int)(((byte)(192)))));
             this.btnOk.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.btnOk.Location = new System.Drawing.Point(210, 144);
+            this.btnOk.Location = new System.Drawing.Point(210, 148);
             this.btnOk.Name = "btnOk";
             this.btnOk.Size = new System.Drawing.Size(198, 56);
             this.btnOk.TabIndex = 6;
@@ -116,68 +116,68 @@
             this.btnOk.UseVisualStyleBackColor = false;
             this.btnOk.Click += new System.EventHandler(this.btnOk_Click);
             // 
-            // boxHeight
+            // txtRows
             // 
-            this.boxHeight.Enabled = false;
-            this.boxHeight.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.boxHeight.Location = new System.Drawing.Point(327, 18);
-            this.boxHeight.Mask = "99";
-            this.boxHeight.Name = "boxHeight";
-            this.boxHeight.Size = new System.Drawing.Size(81, 26);
-            this.boxHeight.TabIndex = 8;
-            this.boxHeight.Text = "10";
+            this.txtRows.Enabled = false;
+            this.txtRows.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.txtRows.Location = new System.Drawing.Point(327, 18);
+            this.txtRows.Mask = "99";
+            this.txtRows.Name = "txtRows";
+            this.txtRows.Size = new System.Drawing.Size(81, 26);
+            this.txtRows.TabIndex = 8;
+            this.txtRows.Text = "10";
             // 
-            // textBoxWidth
+            // txtColumns
             // 
-            this.textBoxWidth.Enabled = false;
-            this.textBoxWidth.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.textBoxWidth.Location = new System.Drawing.Point(327, 51);
-            this.textBoxWidth.Mask = "99";
-            this.textBoxWidth.Name = "textBoxWidth";
-            this.textBoxWidth.Size = new System.Drawing.Size(81, 26);
-            this.textBoxWidth.TabIndex = 9;
-            this.textBoxWidth.Text = "10";
+            this.txtColumns.Enabled = false;
+            this.txtColumns.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.txtColumns.Location = new System.Drawing.Point(327, 51);
+            this.txtColumns.Mask = "99";
+            this.txtColumns.Name = "txtColumns";
+            this.txtColumns.Size = new System.Drawing.Size(81, 26);
+            this.txtColumns.TabIndex = 9;
+            this.txtColumns.Text = "10";
             // 
-            // textBoxBombRatio
+            // txtBombRatio
             // 
-            this.textBoxBombRatio.Enabled = false;
-            this.textBoxBombRatio.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.textBoxBombRatio.Location = new System.Drawing.Point(327, 83);
-            this.textBoxBombRatio.Mask = "99";
-            this.textBoxBombRatio.Name = "textBoxBombRatio";
-            this.textBoxBombRatio.Size = new System.Drawing.Size(81, 26);
-            this.textBoxBombRatio.TabIndex = 10;
-            this.textBoxBombRatio.Text = "5";
+            this.txtBombRatio.Enabled = false;
+            this.txtBombRatio.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.txtBombRatio.Location = new System.Drawing.Point(327, 83);
+            this.txtBombRatio.Mask = "99";
+            this.txtBombRatio.Name = "txtBombRatio";
+            this.txtBombRatio.Size = new System.Drawing.Size(81, 26);
+            this.txtBombRatio.TabIndex = 10;
+            this.txtBombRatio.Text = "5";
             // 
-            // label1
+            // labelRows
             // 
-            this.label1.AutoSize = true;
-            this.label1.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.label1.Location = new System.Drawing.Point(206, 24);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(49, 20);
-            this.label1.TabIndex = 11;
-            this.label1.Text = "Rows";
+            this.labelRows.AutoSize = true;
+            this.labelRows.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.labelRows.Location = new System.Drawing.Point(206, 24);
+            this.labelRows.Name = "labelRows";
+            this.labelRows.Size = new System.Drawing.Size(49, 20);
+            this.labelRows.TabIndex = 11;
+            this.labelRows.Text = "Rows";
             // 
-            // label2
+            // labelColumns
             // 
-            this.label2.AutoSize = true;
-            this.label2.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.label2.Location = new System.Drawing.Point(206, 57);
-            this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(71, 20);
-            this.label2.TabIndex = 12;
-            this.label2.Text = "Columns";
+            this.labelColumns.AutoSize = true;
+            this.labelColumns.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.labelColumns.Location = new System.Drawing.Point(206, 57);
+            this.labelColumns.Name = "labelColumns";
+            this.labelColumns.Size = new System.Drawing.Size(71, 20);
+            this.labelColumns.TabIndex = 12;
+            this.labelColumns.Text = "Columns";
             // 
-            // label3
+            // labelBombRatio
             // 
-            this.label3.AutoSize = true;
-            this.label3.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.label3.Location = new System.Drawing.Point(206, 89);
-            this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(115, 20);
-            this.label3.TabIndex = 13;
-            this.label3.Text = "Bomb Ratio, %";
+            this.labelBombRatio.AutoSize = true;
+            this.labelBombRatio.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.labelBombRatio.Location = new System.Drawing.Point(206, 89);
+            this.labelBombRatio.Name = "labelBombRatio";
+            this.labelBombRatio.Size = new System.Drawing.Size(115, 20);
+            this.labelBombRatio.TabIndex = 13;
+            this.labelBombRatio.Text = "Bomb Ratio, %";
             // 
             // chBoxCommanderMode
             // 
@@ -197,12 +197,12 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(418, 210);
             this.Controls.Add(this.chBoxCommanderMode);
-            this.Controls.Add(this.label3);
-            this.Controls.Add(this.label2);
-            this.Controls.Add(this.label1);
-            this.Controls.Add(this.textBoxBombRatio);
-            this.Controls.Add(this.textBoxWidth);
-            this.Controls.Add(this.boxHeight);
+            this.Controls.Add(this.labelBombRatio);
+            this.Controls.Add(this.labelColumns);
+            this.Controls.Add(this.labelRows);
+            this.Controls.Add(this.txtBombRatio);
+            this.Controls.Add(this.txtColumns);
+            this.Controls.Add(this.txtRows);
             this.Controls.Add(this.btnOk);
             this.Controls.Add(this.groupBox1);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
@@ -227,12 +227,12 @@
         private System.Windows.Forms.RadioButton rBtnMedium;
         private System.Windows.Forms.RadioButton rBtnEasy;
         private System.Windows.Forms.Button btnOk;
-        private System.Windows.Forms.MaskedTextBox boxHeight;
-        private System.Windows.Forms.MaskedTextBox textBoxWidth;
-        private System.Windows.Forms.MaskedTextBox textBoxBombRatio;
-        private System.Windows.Forms.Label label1;
-        private System.Windows.Forms.Label label2;
-        private System.Windows.Forms.Label label3;
+        private System.Windows.Forms.MaskedTextBox txtRows;
+        private System.Windows.Forms.MaskedTextBox txtColumns;
+        private System.Windows.Forms.MaskedTextBox txtBombRatio;
+        private System.Windows.Forms.Label labelRows;
+        private System.Windows.Forms.Label labelColumns;
+        private System.Windows.Forms.Label labelBombRatio;
         private System.Windows.Forms.CheckBox chBoxCommanderMode;
     }
 }

@@ -17,8 +17,9 @@ namespace Akimov.MinerMVP.Presenters {
         }
 
         public void Start() {
+            UnSubscribeCurrentGameEvent();
             SubscribeCurrentGameEvent();
-            view.NewGame(settings);
+            view.StartNewGame(settings);
             model.Start(settings);            
         }
 
@@ -27,8 +28,8 @@ namespace Akimov.MinerMVP.Presenters {
         }
 
         void SubscribeMenuEvent() {
-            view.NewGameStart += View_NewGameStart;
-            view.SettingsOpen += View_SettingsOpen;
+            view.NewGame += View_NewGameStart;
+            view.Settings += View_SettingsOpen;
             view.Exit += View_Exit;
         }
 
@@ -58,8 +59,8 @@ namespace Akimov.MinerMVP.Presenters {
         }
 
         void UnSubscribeMenuEvent() {            
-            view.SettingsOpen -= View_SettingsOpen;
-            view.NewGameStart -= View_NewGameStart;            
+            view.Settings -= View_SettingsOpen;
+            view.NewGame -= View_NewGameStart;            
         }
 
         void Model_GameOver(object sender, GameOverArgs e) {

@@ -17,15 +17,15 @@ namespace Akimov.MinerMVP.Views {
 
             switch (type) {
             case GameOverType.Victory:
-                message = Localizer.MSG_VICTORY;                    
+                message = UIConstants.MSG_VICTORY;                    
                 image = Properties.Resources.VictorySoldier;
                 break;
             case GameOverType.VictoryCommander:
-                message = Localizer.MSG_VICTORY_COMMANDER;                    
+                message = UIConstants.MSG_VICTORY_COMMANDER;                    
                 image = Properties.Resources.VictoryCommander;
                 break;
             case GameOverType.Defeat:
-                message = Localizer.MSG_DEFEAT;
+                message = UIConstants.MSG_DEFEAT;
                 image = Properties.Resources.Defeat;
                 break;
             default:

@@ -22,8 +22,8 @@ namespace Akimov.MinerMVP.Views {
             { CellType.Eight_Bomb_Around, Resources.Eight}};
         const int CELL_SIZE = 33;
         public event EventHandler<CellActionArgs> CellAction = delegate { };
-        public event EventHandler SettingsOpen = delegate { };
-        public event EventHandler NewGameStart = delegate { };
+        public event EventHandler Settings = delegate { };
+        public event EventHandler NewGame = delegate { };
         public event EventHandler Exit = delegate { };
 
         Bitmap bufferForPaint;
@@ -36,7 +36,7 @@ namespace Akimov.MinerMVP.Views {
             PrepareMineField();
         }
 
-        public void NewGame(MineFieldSettings setting) {
+        public void StartNewGame(MineFieldSettings setting) {
             settings = setting;
             PrepareMineField();
         }
@@ -49,9 +49,9 @@ namespace Akimov.MinerMVP.Views {
         public void GameOver() {
             UnSubscribeEvents();
             picMineField.Cursor = Cursors.No;
-            //this.Close();
+            itemNewGame.Select();
+            
         }
-
 
         void PrepareMineField() {
             UnSubscribeEvents();
@@ -60,8 +60,12 @@ namespace Akimov.MinerMVP.Views {
             picMineField.Size = new Size(
                 settings.Columns * CELL_SIZE + 1,
                 settings.Rows * CELL_SIZE + 1);
-            
-            Text = String.Format(Localizer.MINER_VIEW_NAME, settings.Columns, settings.Rows);                
+            //чтобы форма правильно отресайзилась
+            this.Size = new Size(0, 0);
+            //и отцентировалась
+            this.Location = new Point((Screen.PrimaryScreen.Bounds.Width - this.Width) / 2,
+                (Screen.PrimaryScreen.Bounds.Height - this.Height) / 2);
+            Text = String.Format(UIConstants.MINER_VIEW_NAME, settings.Columns, settings.Rows);                
             SubscribeEvents();
             picMineField.Cursor = Cursors.Default;
         }
@@ -112,7 +116,7 @@ namespace Akimov.MinerMVP.Views {
         }
 
         void OnNewGame() {
-            NewGameStart(this, null);            
+            NewGame(this, null);            
         }
 
         void itemSettings_Click(object sender, EventArgs e) {
@@ -120,7 +124,7 @@ namespace Akimov.MinerMVP.Views {
         }
 
         void OnSettingsOpen() {
-            SettingsOpen(this, null);
+            Settings(this, null);
         }
 
         void itemExit_Click(object sender, EventArgs e) {

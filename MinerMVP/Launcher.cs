@@ -9,11 +9,10 @@ namespace Akimov.MinerMVP {
         static void Main() {
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-            
+
             MinerView minerView = new MinerView();           
             MinerPresenter presenter = new MinerPresenter(minerView);            
-            presenter.Start();           
-
+            presenter.Start();
             Application.Run(minerView);
         }
     }

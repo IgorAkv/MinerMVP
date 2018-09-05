@@ -4,11 +4,11 @@ using System.Collections.Generic;
 
 namespace Akimov.MinerMVP.Views {
     public interface IMinerView {
-        event EventHandler NewGameStart;
-        event EventHandler SettingsOpen;
+        event EventHandler NewGame;
+        event EventHandler Settings;
         event EventHandler Exit;
         event EventHandler<CellActionArgs> CellAction;
-        void NewGame(MineFieldSettings setting);
+        void StartNewGame(MineFieldSettings setting);
         void MineFieldUpdate(List<Cell> updatedCell);
         void GameOver();
     }

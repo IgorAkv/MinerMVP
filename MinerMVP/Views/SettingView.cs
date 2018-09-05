@@ -7,40 +7,64 @@ using System.Windows.Forms;
 namespace Akimov.MinerMVP.Views {
     public partial class SettingView : Form {
         Action<MineFieldSettings> SetSetting;
-        public SettingView(MineFieldSettings settings, Action<MineFieldSettings> setSetting) {
+        public SettingView(MineFieldSettings settings, Action<MineFieldSettings> actionSetSetting) {
             InitializeComponent();
-            this.SetSetting = setSetting;
-            boxHeight.Text = settings.Rows.ToString();
-            textBoxWidth.Text = settings.Columns.ToString();
-            textBoxBombRatio.Text = settings.BombRatio.ToString();                
+            this.SetSetting = actionSetSetting;
+            txtRows.Text = settings.Rows.ToString();
+            txtColumns.Text = settings.Columns.ToString();
+            txtBombRatio.Text = settings.BombRatio.ToString();                
             chBoxCommanderMode.Checked = settings.CommanderMode;
-
-            rBtnSpecial.Checked = settings.CommanderMode;
+            SetDifficultyLevel(settings);
         }
 
-        public int Rows {
-            get {
-                int h = MineFieldConstants.HEIGHT_EASY;
-                Int32.TryParse(boxHeight.Text, out h);
-                return h;
+        void SetDifficultyLevel(MineFieldSettings settings) {
+            if (settings.Rows == MineFieldConstants.ROWS_EASY &&
+                settings.Columns == MineFieldConstants.COLUMNS_EASY &&
+                settings.BombRatio == MineFieldConstants.BOMB_RATIO_EASY &&
+                !settings.CommanderMode) {
+                rBtnEasy.Checked = true;
+                return;
             }
-        }
-        public int Columns {
-            get {
-                int w = MineFieldConstants.WIDTH_EASY;
-                Int32.TryParse(textBoxWidth.Text, out w);
-                return w;
+            if (settings.Rows == MineFieldConstants.ROWS_MEDIUM &&
+                settings.Columns == MineFieldConstants.COLUMNS_MEDIUM &&
+                settings.BombRatio == MineFieldConstants.BOMB_RATIO_MEDIUM &&
+                !settings.CommanderMode) {
+                rBtnMedium.Checked = true;
+                return;
             }
+            if (settings.Rows == MineFieldConstants.ROWS_EXPERT &&
+               settings.Columns == MineFieldConstants.COLUMNS_EXPERT &&
+               settings.BombRatio == MineFieldConstants.BOMB_RATIO_EXPERT &&
+               !settings.CommanderMode) {
+                rBtnExpert.Checked = true;
+                return;
+            }
+            rBtnSpecial.Checked = true;
         }
-        public int BombRatio {
+
+        int Rows {
             get {
-                int r = MineFieldConstants.BOMB_RATIO_EASY;
-                Int32.TryParse(textBoxBombRatio.Text, out r);
+                int r = MineFieldConstants.ROWS_EASY;
+                Int32.TryParse(txtRows.Text, out r);
                 return r;
             }
         }
+        int Columns {
+            get {
+                int c = MineFieldConstants.COLUMNS_EASY;
+                Int32.TryParse(txtColumns.Text, out c);
+                return c;
+            }
+        }
+        int BombRatio {
+            get {
+                int b = MineFieldConstants.BOMB_RATIO_EASY;
+                Int32.TryParse(txtBombRatio.Text, out b);
+                return b;
+            }
+        }
 
-        public bool CommanderMode {
+        bool CommanderMode {
             get {
                 return chBoxCommanderMode.Checked;
             }
@@ -48,36 +72,36 @@ namespace Akimov.MinerMVP.Views {
 
         void rBtnEasy_CheckedChanged(object sender, EventArgs e) {
             if (rBtnEasy.Checked) {                
-                SetParameters(MineFieldConstants.WIDTH_EASY, MineFieldConstants.HEIGHT_EASY, MineFieldConstants.BOMB_RATIO_EASY);
+                SetParameters(MineFieldConstants.COLUMNS_EASY, MineFieldConstants.ROWS_EASY, MineFieldConstants.BOMB_RATIO_EASY);
             }
         }
 
         void rBtnExpert_CheckedChanged(object sender, EventArgs e) {
             if (rBtnExpert.Checked) {
-                SetParameters(MineFieldConstants.WIDTH_EXPERT, MineFieldConstants.HEIGHT_EXPERT, MineFieldConstants.BOMB_RATIO_EXPERT);
+                SetParameters(MineFieldConstants.COLUMNS_EXPERT, MineFieldConstants.ROWS_EXPERT, MineFieldConstants.BOMB_RATIO_EXPERT);
             }
         }
 
         void rBtnMedium_CheckedChanged(object sender, EventArgs e) {
             if (rBtnMedium.Checked) {
-                SetParameters(MineFieldConstants.WIDTH_MEDIUM, MineFieldConstants.HEIGHT_MEDIUM, MineFieldConstants.BOMB_RATIO_MEDIUM);
+                SetParameters(MineFieldConstants.COLUMNS_MEDIUM, MineFieldConstants.ROWS_MEDIUM, MineFieldConstants.BOMB_RATIO_MEDIUM);
             }
         }
 
         void rBtnSpecial_CheckedChanged(object sender, EventArgs e) {
-            textBoxWidth.Enabled = true;
-            boxHeight.Enabled = true;
-            textBoxBombRatio.Enabled = true;
+            txtColumns.Enabled = true;
+            txtRows.Enabled = true;
+            txtBombRatio.Enabled = true;
             chBoxCommanderMode.Enabled = true;
         }
 
         void SetParameters(int width, int height, int bombRatio) {
-            textBoxWidth.Text = width.ToString();
-            boxHeight.Text = height.ToString();
-            textBoxBombRatio.Text = bombRatio.ToString();
-            boxHeight.Enabled = false;
-            textBoxWidth.Enabled = false;
-            textBoxBombRatio.Enabled = false;
+            txtColumns.Text = width.ToString();
+            txtRows.Text = height.ToString();
+            txtBombRatio.Text = bombRatio.ToString();
+            txtRows.Enabled = false;
+            txtColumns.Enabled = false;
+            txtBombRatio.Enabled = false;
             chBoxCommanderMode.Checked = false;
             chBoxCommanderMode.Enabled = false;
         }
