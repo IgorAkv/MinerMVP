@@ -2,15 +2,15 @@
 namespace Akimov.MinerMVP.Models {
     public class Cell {        
         public Cell(int row, int col, CellType cellType) : 
-            this(new Position(row, col), cellType) {            
+            this(new Сoordinates(row, col), cellType) {            
         }
-        public Cell(Position position, CellType cellType) {
+        public Cell(Сoordinates position, CellType cellType) {
             Position = position;
             CellType = cellType;
         }
-        public Position Position { get; }
+        public Сoordinates Position { get; }
         public CellType CellType { get; set; }        
-        public Cell Copy() => new Cell(Position, CellType);
+  
         public override bool Equals(object obj) {
             Cell cell = obj as Cell;
             if (cell != null) {

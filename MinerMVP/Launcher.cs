@@ -11,7 +11,7 @@ namespace Akimov.MinerMVP {
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
 
-            MinerView minerView = new MinerView();           
+            MinerForm minerView = new MinerForm();           
             MinerPresenter presenter = new MinerPresenter(minerView);            
             presenter.Start();
             Application.Run(minerView);

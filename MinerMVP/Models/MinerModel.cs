@@ -6,25 +6,25 @@ namespace Akimov.MinerMVP.Models {
     class MinerModel : IMinerModel {
         public event EventHandler<GameOverArgs> GameOver = delegate { };
         public event EventHandler<ModelUpdatedArgs> ModelUpdated = delegate { };
-        Dictionary<Position, Cell> mineField;        
-        HashSet<Position> bombs;        
-        HashSet<Cell> quereForOpen;
-        MineFieldSettings setting;
-        Random random;
+        Dictionary<Сoordinates, Cell> mineField;        
+        HashSet<Сoordinates> bombs;        
+        HashSet<Cell> queueCellForOpen;
+        MineFieldSettings settings;
+        Random random;        
 
         public MinerModel() {            
             random = new Random();
         }
         
         public void Start(MineFieldSettings setting) {
-            this.setting = setting;
+            this.settings = setting;
             Initialize();
             CreateMineField();            
         }
                 
         public void CellAction(int row, int col, CellActionType action) {
             Cell cell;
-            if (mineField.TryGetValue(new Position(row, col), out cell)) {
+            if (mineField.TryGetValue(new Сoordinates(row, col), out cell)) {
                 if (action == CellActionType.Open && cell.CellType == CellType.Closed) {
                     OpenCell(cell);
                 }
@@ -37,13 +37,13 @@ namespace Akimov.MinerMVP.Models {
                     }
                 }
                 OnModelUpdated();
+                CheckGameOver();
             }
         }
 
         public void OnModelUpdated() {
             List<Cell> cells = new List<Cell>(mineField.Values);
             ModelUpdated(this, new ModelUpdatedArgs(cells));
-            CheckGameOver();
         }
 
         public void OnGameOver(GameOverType type) {
@@ -51,31 +51,40 @@ namespace Akimov.MinerMVP.Models {
         }
 
         void Initialize() {
-            mineField = new Dictionary<Position, Cell>();
-            bombs = new HashSet<Position>();
+            mineField = new Dictionary<Сoordinates, Cell>();
+            bombs = new HashSet<Сoordinates>();
         }
 
         void CreateMineField() {
-            for (int row = 0; row < setting.Rows; row++) {
-                for (int col = 0; col < setting.Columns; col++) {
-                    Position position = new Position(row, col);
-                    mineField.Add(position, new Cell(position, CellType.Closed));
-                    if (random.Next(MineFieldConstants.PERCENT_MAX) < setting.BombRatio) {
-                        bombs.Add(position);
-                    }
+            for (int row = 0; row < settings.Rows; row++) {
+                for (int col = 0; col < settings.Columns; col++) {
+                    Сoordinates position = new Сoordinates(row, col);
+                    mineField.Add(position, new Cell(position, CellType.Closed));                    
                 }
             }
+            GenerateBombs();
             OnModelUpdated();
-        }         
+        }
+
+        private void GenerateBombs() {            
+            int bombCount = (int) Math.Round(settings.Rows * settings.Columns * MineFieldConstants.PERCENT_FACTOR * settings.BombRatio);
+            List<Сoordinates> coordinates = new List<Сoordinates>(mineField.Keys);
+            while (bombCount > 0) {
+                int index = random.Next(coordinates.Count - 1);
+                bombs.Add(coordinates.ElementAt(index));
+                coordinates.RemoveAt(index);
+                bombCount--;
+            }
+        }
 
         void CheckGameOver() {            
-            if (!setting.CommanderMode && mineField.Values.Any(c => c.CellType == CellType.Bomb)) {
+            if (!settings.CommanderMode && mineField.Values.Any(c => c.CellType == CellType.Bomb)) {
                 OnGameOver(GameOverType.Defeat);
             }
             if (mineField.Values.All(c => c.CellType != CellType.Closed) &&
                 bombs.Count() == mineField.Values.Where(c => c.CellType == CellType.Flagged || 
                 c.CellType == CellType.Bomb).Count()) {
-                if (setting.CommanderMode) {
+                if (settings.CommanderMode) {
                     OnGameOver(GameOverType.VictoryCommander);
                 }
                 else {
@@ -99,39 +108,44 @@ namespace Akimov.MinerMVP.Models {
             cell.CellType = nextMarker;
         }
      
-        void OpenCell(Cell cellForOpen) {
-            quereForOpen = new HashSet<Cell>() { cellForOpen };            
-            while (quereForOpen.Count > 0) {
-                Cell cell = quereForOpen.Last();
-                quereForOpen.Remove(cell);
-                if (bombs.Contains(cellForOpen.Position)) {
-                    cell.CellType = CellType.Bomb;
-                }
-                else {
-                    HashSet<Cell> neighbors = GetCellsNeighbors(cell);
-                    int bombCount = neighbors.Where(c => bombs.Contains(c.Position)).Count();
-                    cell.CellType = (CellType)bombCount;
-                    if (bombCount == 0) {
-                        quereForOpen.UnionWith(neighbors
-                            .Where(c => c.CellType == CellType.Closed));
-                    }
+        void OpenCell(Cell cell) {
+            if (bombs.Contains(cell.Position)) {
+                cell.CellType = CellType.Bomb;
+                return;
+            }
+            queueCellForOpen = new HashSet<Cell>() { cell };
+            while (queueCellForOpen.Count > 0) {
+                Cell currentCell = queueCellForOpen.Last();
+                queueCellForOpen.Remove(currentCell);
+                HashSet<Cell> neighbors = GetCellsNeighbors(currentCell);                
+                currentCell.CellType = (CellType)GetBombCount(neighbors); 
+                if (currentCell.CellType == CellType.None_Bomb_Around) {
+                    queueCellForOpen.UnionWith(GetClosedCell(neighbors));
                 }
             }
         }
 
+        int GetBombCount(HashSet<Cell> cells) {
+            return cells.Where(c => bombs.Contains(c.Position)).Count();
+        }
+
+        IEnumerable<Cell> GetClosedCell(HashSet<Cell> cells) {
+            return cells.Where(c => c.CellType == CellType.Closed);
+        }
+
         HashSet<Cell> GetCellsNeighbors(Cell cell) {
-            HashSet<Position> positions = new HashSet<Position>();
+            HashSet<Сoordinates> cellLocations = new HashSet<Сoordinates>();
             int row = cell.Position.Row;
             int column = cell.Position.Column;
             for (int r = row - 1; r <= row + 1; r++) {
-                positions.Add(new Position(r, column - 1));
+                cellLocations.Add(new Сoordinates(r, column - 1));
                 if (r != row) {
-                    positions.Add(new Position(r, column));
+                    cellLocations.Add(new Сoordinates(r, column));
                 }
-                positions.Add(new Position(r, column + 1));
+                cellLocations.Add(new Сoordinates(r, column + 1));
             }
             HashSet<Cell> cells = new HashSet<Cell>();
-            foreach (Position pos in positions) {
+            foreach (Сoordinates pos in cellLocations) {
                 Cell candidateCell;
                 if (mineField.TryGetValue(pos, out candidateCell)) {
                     cells.Add(candidateCell);
