@@ -1,11 +1,12 @@
 ﻿using Akimov.MinerMVP.Models;
 using Akimov.MinerMVP.Presenters;
 using Akimov.MinerMVP.Views;
+using System;
 using System.Windows.Forms;
 
 namespace Akimov.MinerMVP {
     class Launcher {
-        //[STAThread]
+        [STAThread]
         static void Main() {
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
