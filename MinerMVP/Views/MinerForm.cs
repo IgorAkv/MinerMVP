@@ -6,7 +6,7 @@ using System.Drawing;
 using System.Windows.Forms;
 
 namespace Akimov.MinerMVP.Views {
-    public partial class MinerView : Form, IMinerView {
+    public partial class MinerForm : Form, IMinerForm {
         static Dictionary<CellType, Image> images = new Dictionary<CellType, Image>() {
             { CellType.Bomb, Resources.Bomb},
             { CellType.Closed, Resources.Closed},
@@ -20,7 +20,8 @@ namespace Akimov.MinerMVP.Views {
             { CellType.Six_Bomb_Around, Resources.Six},
             { CellType.Seven_Bomb_Around, Resources.Seven},
             { CellType.Eight_Bomb_Around, Resources.Eight}};
-        const int CELL_SIZE = 33;
+        const int CELL_SIZE = BORDER_WIDTH + 32;
+        const int BORDER_WIDTH = 1;
         public event EventHandler<CellActionArgs> CellAction = delegate { };
         public event EventHandler Settings = delegate { };
         public event EventHandler NewGame = delegate { };
@@ -30,13 +31,12 @@ namespace Akimov.MinerMVP.Views {
         List<Cell> updatedCells;
         MineFieldSettings settings;
 
-        public MinerView() {
+        public MinerForm() {
             InitializeComponent();
-            settings = new MineFieldSettings();
-            PrepareMineField();
+            SubscribeMenuEvents();
         }
 
-        public void StartNewGame(MineFieldSettings setting) {
+        public void StartNewGame(MineFieldSettings setting) {            
             settings = setting;
             PrepareMineField();
         }
@@ -47,34 +47,28 @@ namespace Akimov.MinerMVP.Views {
         }
 
         public void GameOver() {
-            UnSubscribeEvents();
-            picMineField.Cursor = Cursors.No;
-            itemNewGame.Select();
-            
+            UnSubscribeMouseEvent();
+            picBoxMineField.Cursor = Cursors.No;
+            itemNewGame.Select();            
         }
 
         void PrepareMineField() {
-            UnSubscribeEvents();
-            MaximumSize = Screen.PrimaryScreen.Bounds.Size;
+            UnSubscribePaintEvents();
+            UnSubscribeMouseEvent();
             bufferForPaint = null;
-            picMineField.Size = new Size(
-                settings.Columns * CELL_SIZE + 1,
-                settings.Rows * CELL_SIZE + 1);
-            //чтобы форма правильно отресайзилась
-            this.Size = new Size(0, 0);
-            //и отцентировалась
-            this.Location = new Point((Screen.PrimaryScreen.Bounds.Width - this.Width) / 2,
-                (Screen.PrimaryScreen.Bounds.Height - this.Height) / 2);
+            picBoxMineField.Size = new Size(
+                settings.Columns * CELL_SIZE + BORDER_WIDTH,
+                settings.Rows * CELL_SIZE + BORDER_WIDTH);
+            this.Size = Size.Empty;
+            //this.Location = new Point((Screen.PrimaryScreen.Bounds.Width - this.Width) / 2,
+            //    (Screen.PrimaryScreen.Bounds.Height - this.Height) / 2);
             Text = String.Format(UIConstants.MINER_VIEW_NAME, settings.Columns, settings.Rows);                
-            SubscribeEvents();
-            picMineField.Cursor = Cursors.Default;
+            
+            picBoxMineField.Cursor = Cursors.Default;
+            SubscribePaintEvents();
+            SubscribeMouseEvent();
         }
-
-        void SubscribeEvents() {
-            picMineField.Paint += PaintMineField;
-            picMineField.MouseUp += MineField_MouseUp;
-        }
-
+                       
         void MineField_MouseUp(object sender, MouseEventArgs e) {
             int row = e.Y / CELL_SIZE;
             int column = e.X / CELL_SIZE;
@@ -91,49 +85,57 @@ namespace Akimov.MinerMVP.Views {
                 return;
             }
             if (bufferForPaint == null) {
-                bufferForPaint = new Bitmap(picMineField.Width, picMineField.Height);
+                bufferForPaint = new Bitmap(picBoxMineField.Width, picBoxMineField.Height);
             }
             using (Graphics g = Graphics.FromImage(bufferForPaint)) {
                 foreach (Cell cell in updatedCells) {
                     g.DrawImage(images[cell.CellType],
-                        CELL_SIZE * cell.Position.Column + 1,
-                        CELL_SIZE * cell.Position.Row + 1);
+                        CELL_SIZE * cell.Position.Column + BORDER_WIDTH,
+                        CELL_SIZE * cell.Position.Row + BORDER_WIDTH);
                 }
             }            
-            picMineField.Image = bufferForPaint;
+            picBoxMineField.Image = bufferForPaint;
         }
         void OnCellAction(CellActionArgs e) {
             CellAction(this, e);
         }
 
-        void UnSubscribeEvents() {
-            picMineField.Paint -= PaintMineField;
-            picMineField.MouseUp -= MineField_MouseUp;
-        }
-
-        void itemNewGame_Click(object sender, EventArgs e) {
-            OnNewGame();
-        }
-
-        void OnNewGame() {
+        void OnNewGame(object sender, EventArgs e) {
             NewGame(this, null);            
         }
 
-        void itemSettings_Click(object sender, EventArgs e) {
-            OnSettingsOpen();
-        }
-
-        void OnSettingsOpen() {
+        void OnSettings(object sender, EventArgs e) {
             Settings(this, null);
         }
-
-        void itemExit_Click(object sender, EventArgs e) {
-            OnExit();
+                
+        void OnExit(object sender, EventArgs e) {
+            Exit(this, null);
+            UnSubscribeMenuEvents();
             Close();
         }
 
-        void OnExit() {
-            Exit(this, null);
+        void SubscribeMenuEvents() {
+            itemNewGame.Click += OnNewGame;
+            itemSettings.Click += OnSettings;
+            itemExit.Click += OnExit;
         }
+        void UnSubscribeMenuEvents() {
+            itemNewGame.Click -= OnNewGame;
+            itemSettings.Click -= OnSettings;
+            itemExit.Click -= OnExit;
+        }
+        void UnSubscribePaintEvents() {
+            picBoxMineField.Paint -= PaintMineField;
+        }
+        void SubscribePaintEvents() {
+            picBoxMineField.Paint += PaintMineField;
+        }
+        void SubscribeMouseEvent() {
+            picBoxMineField.MouseUp += MineField_MouseUp;
+        }
+        void UnSubscribeMouseEvent() {
+            picBoxMineField.MouseUp -= MineField_MouseUp;
+        }
+
     }
 }

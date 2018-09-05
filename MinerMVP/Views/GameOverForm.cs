@@ -5,8 +5,8 @@ using System.Drawing;
 using System.Windows.Forms;
 
 namespace Akimov.MinerMVP.Views {
-    public partial class GameOverView : Form, IGameOverView {
-        public GameOverView() {
+    public partial class GameOverForm : Form, IGameOverForm {
+        public GameOverForm() {
             InitializeComponent();
             this.Hide();
         }

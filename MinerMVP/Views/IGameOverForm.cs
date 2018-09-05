@@ -1,7 +1,7 @@
 ﻿using Akimov.MinerMVP.Models;
 
 namespace Akimov.MinerMVP.Views {
-    public interface IGameOverView {
+    public interface IGameOverForm {
         void ShowGameOver(GameOverType type);
     }
 }

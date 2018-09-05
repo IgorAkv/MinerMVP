@@ -46,7 +46,7 @@
     <Compile Include="Views\Util\UIConstants.cs" />
     <Compile Include="Models\Cell.cs" />
     <Compile Include="Models\CellActionType.cs" />
-    <Compile Include="Models\Position.cs" />
+    <Compile Include="Models\Сoordinates.cs" />
     <Compile Include="Models\CellType.cs" />
     <Compile Include="Models\GameOverType.cs" />
     <Compile Include="Models\GameOverArgs.cs" />
@@ -63,25 +63,25 @@
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
     <Compile Include="Views\CellActionArgs.cs" />
-    <Compile Include="Views\GameOverView.cs">
+    <Compile Include="Views\GameOverForm.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Views\GameOverView.Designer.cs">
-      <DependentUpon>GameOverView.cs</DependentUpon>
+    <Compile Include="Views\GameOverForm.Designer.cs">
+      <DependentUpon>GameOverForm.cs</DependentUpon>
     </Compile>
-    <Compile Include="Views\IGameOverView.cs" />
-    <Compile Include="Views\IMinerView.cs" />
-    <Compile Include="Views\SettingView.cs">
+    <Compile Include="Views\IGameOverForm.cs" />
+    <Compile Include="Views\IMinerForm.cs" />
+    <Compile Include="Views\SettingForm.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Views\SettingView.Designer.cs">
-      <DependentUpon>SettingView.cs</DependentUpon>
+    <Compile Include="Views\SettingForm.Designer.cs">
+      <DependentUpon>SettingForm.cs</DependentUpon>
     </Compile>
-    <Compile Include="Views\MinerView.cs">
+    <Compile Include="Views\MinerForm.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Views\MinerView.Designer.cs">
-      <DependentUpon>MinerView.cs</DependentUpon>
+    <Compile Include="Views\MinerForm.Designer.cs">
+      <DependentUpon>MinerForm.cs</DependentUpon>
     </Compile>
   </ItemGroup>
   <ItemGroup>
@@ -96,14 +96,14 @@
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
-    <EmbeddedResource Include="Views\GameOverView.resx">
-      <DependentUpon>GameOverView.cs</DependentUpon>
+    <EmbeddedResource Include="Views\GameOverForm.resx">
+      <DependentUpon>GameOverForm.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Views\SettingView.resx">
-      <DependentUpon>SettingView.cs</DependentUpon>
+    <EmbeddedResource Include="Views\SettingForm.resx">
+      <DependentUpon>SettingForm.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Views\MinerView.resx">
-      <DependentUpon>MinerView.cs</DependentUpon>
+    <EmbeddedResource Include="Views\MinerForm.resx">
+      <DependentUpon>MinerForm.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>

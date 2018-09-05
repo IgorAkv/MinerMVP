@@ -1,5 +1,5 @@
 ﻿namespace Akimov.MinerMVP.Views {
-    partial class GameOverView {
+    partial class GameOverForm {
         /// <summary>
         /// Required designer variable.
         /// </summary>

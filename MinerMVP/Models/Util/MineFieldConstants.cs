@@ -16,6 +16,6 @@ namespace Akimov.MinerMVP.Models {
         public const int BOMB_RATIO_MEDIUM = 15;
         public const int BOMB_RATIO_EXPERT = 20;
         public const int BOMB_RATIO_MAX = 50;
-        public const int PERCENT_MAX = 100;
+        public const float PERCENT_FACTOR = 0.01f;
     }
 }

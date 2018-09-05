@@ -5,13 +5,13 @@ using System;
 using System.Windows.Forms;
 
 namespace Akimov.MinerMVP.Views {
-    public partial class SettingView : Form {
+    public partial class SettingForm : Form {
         Action<MineFieldSettings> SetSetting;
         //
         // В конструктор окна настроек передаются текущие настройки игры и ссылка на метод,
         // в который при закрытии будут переданы, параметром, измененные настройки.
         //
-        public SettingView(MineFieldSettings settings, Action<MineFieldSettings> actionSetSetting) {
+        public SettingForm(MineFieldSettings settings, Action<MineFieldSettings> actionSetSetting) {
             InitializeComponent();
             this.SetSetting = actionSetSetting;
             txtRows.Text = settings.Rows.ToString();

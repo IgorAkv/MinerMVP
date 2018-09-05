@@ -3,14 +3,14 @@ using Akimov.MinerMVP.Views;
 
 namespace Akimov.MinerMVP.Presenters {
     class MinerPresenter : IMinerPresenter {
-        IMinerView view;
-        IGameOverView gameOverView;
+        IMinerForm view;
+        IGameOverForm gameOverView;
         IMinerModel model;
         MineFieldSettings settings;
 
-        public MinerPresenter(IMinerView minerView) {
+        public MinerPresenter(IMinerForm minerView) {
             this.view = minerView;
-            this.gameOverView = new GameOverView();
+            this.gameOverView = new GameOverForm();
             this.model = new MinerModel();
             settings = new MineFieldSettings();
             SubscribeMenuEvent();
@@ -54,7 +54,7 @@ namespace Akimov.MinerMVP.Presenters {
         }
 
         void View_SettingsOpen(object sender, System.EventArgs e) {
-            SettingView settingView = new SettingView(settings, SetSettings);
+            SettingForm settingView = new SettingForm(settings, SetSettings);
             settingView.ShowDialog();
         }
 

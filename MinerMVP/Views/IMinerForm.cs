@@ -3,7 +3,7 @@ using System;
 using System.Collections.Generic;
 
 namespace Akimov.MinerMVP.Views {
-    public interface IMinerView {
+    public interface IMinerForm {
         event EventHandler NewGame;
         event EventHandler Settings;
         event EventHandler Exit;
