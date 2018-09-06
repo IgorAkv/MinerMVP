@@ -77,7 +77,7 @@
             this.itemExit.Size = new System.Drawing.Size(37, 20);
             this.itemExit.Text = "&Exit";
             // 
-            // MinerView
+            // MinerForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
@@ -90,7 +90,7 @@
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.MainMenuStrip = this.menu;
             this.MaximizeBox = false;
-            this.Name = "MinerView";
+            this.Name = "MinerForm";
             this.ShowIcon = false;
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "MineField";

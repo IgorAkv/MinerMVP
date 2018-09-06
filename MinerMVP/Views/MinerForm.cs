@@ -56,15 +56,15 @@ namespace Akimov.MinerMVP.Views {
             UnSubscribePaintEvents();
             UnSubscribeMouseEvent();
             bufferForPaint = null;
-            picBoxMineField.Size = new Size(
+            this.MaximumSize = Screen.PrimaryScreen.Bounds.Size;
+            this.picBoxMineField.Size = new Size(
                 settings.Columns * CELL_SIZE + BORDER_WIDTH,
                 settings.Rows * CELL_SIZE + BORDER_WIDTH);
+            this.picBoxMineField.Cursor = Cursors.Default;
             this.Size = Size.Empty;
-            //this.Location = new Point((Screen.PrimaryScreen.Bounds.Width - this.Width) / 2,
-            //    (Screen.PrimaryScreen.Bounds.Height - this.Height) / 2);
-            Text = String.Format(UIConstants.MINER_VIEW_NAME, settings.Columns, settings.Rows);                
-            
-            picBoxMineField.Cursor = Cursors.Default;
+            this.Location = new Point((Screen.PrimaryScreen.Bounds.Width - this.Width) / 2,
+                (Screen.PrimaryScreen.Bounds.Height - this.Height) / 2);
+            this.Text = String.Format(UIConstants.MINER_VIEW_NAME, settings.Columns, settings.Rows);
             SubscribePaintEvents();
             SubscribeMouseEvent();
         }
@@ -90,12 +90,13 @@ namespace Akimov.MinerMVP.Views {
             using (Graphics g = Graphics.FromImage(bufferForPaint)) {
                 foreach (Cell cell in updatedCells) {
                     g.DrawImage(images[cell.CellType],
-                        CELL_SIZE * cell.Position.Column + BORDER_WIDTH,
-                        CELL_SIZE * cell.Position.Row + BORDER_WIDTH);
+                        CELL_SIZE * cell.Coordinates.Column + BORDER_WIDTH,
+                        CELL_SIZE * cell.Coordinates.Row + BORDER_WIDTH);
                 }
             }            
             picBoxMineField.Image = bufferForPaint;
         }
+
         void OnCellAction(CellActionArgs e) {
             CellAction(this, e);
         }
@@ -110,7 +111,7 @@ namespace Akimov.MinerMVP.Views {
                 
         void OnExit(object sender, EventArgs e) {
             Exit(this, null);
-            UnSubscribeMenuEvents();
+            UnSubscribeAllEvents();            
             Close();
         }
 
@@ -119,16 +120,18 @@ namespace Akimov.MinerMVP.Views {
             itemSettings.Click += OnSettings;
             itemExit.Click += OnExit;
         }
-        void UnSubscribeMenuEvents() {
+        void UnSubscribeAllEvents() {
             itemNewGame.Click -= OnNewGame;
             itemSettings.Click -= OnSettings;
             itemExit.Click -= OnExit;
-        }
-        void UnSubscribePaintEvents() {
-            picBoxMineField.Paint -= PaintMineField;
+            UnSubscribePaintEvents();
+            UnSubscribeMouseEvent();
         }
         void SubscribePaintEvents() {
             picBoxMineField.Paint += PaintMineField;
+        }
+        void UnSubscribePaintEvents() {
+            picBoxMineField.Paint -= PaintMineField;
         }
         void SubscribeMouseEvent() {
             picBoxMineField.MouseUp += MineField_MouseUp;

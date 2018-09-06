@@ -6,8 +6,8 @@ namespace Akimov.MinerMVP.Models {
     class MinerModel : IMinerModel {
         public event EventHandler<GameOverArgs> GameOver = delegate { };
         public event EventHandler<ModelUpdatedArgs> ModelUpdated = delegate { };
-        Dictionary<Сoordinates, Cell> mineField;        
-        HashSet<Сoordinates> bombs;        
+        Dictionary<Coordinates, Cell> mineField;        
+        HashSet<Coordinates> bombs;        
         HashSet<Cell> queueCellForOpen;
         MineFieldSettings settings;
         Random random;        
@@ -24,7 +24,7 @@ namespace Akimov.MinerMVP.Models {
                 
         public void CellAction(int row, int col, CellActionType action) {
             Cell cell;
-            if (mineField.TryGetValue(new Сoordinates(row, col), out cell)) {
+            if (mineField.TryGetValue(new Coordinates(row, col), out cell)) {
                 if (action == CellActionType.Open && cell.CellType == CellType.Closed) {
                     OpenCell(cell);
                 }
@@ -41,24 +41,24 @@ namespace Akimov.MinerMVP.Models {
             }
         }
 
-        public void OnModelUpdated() {
+        void OnModelUpdated() {
             List<Cell> cells = new List<Cell>(mineField.Values);
             ModelUpdated(this, new ModelUpdatedArgs(cells));
         }
 
-        public void OnGameOver(GameOverType type) {
+        void OnGameOver(GameOverType type) {
             GameOver(this, new GameOverArgs(type));
         }
 
         void Initialize() {
-            mineField = new Dictionary<Сoordinates, Cell>();
-            bombs = new HashSet<Сoordinates>();
+            mineField = new Dictionary<Coordinates, Cell>();
+            bombs = new HashSet<Coordinates>();
         }
 
         void CreateMineField() {
             for (int row = 0; row < settings.Rows; row++) {
                 for (int col = 0; col < settings.Columns; col++) {
-                    Сoordinates position = new Сoordinates(row, col);
+                    Coordinates position = new Coordinates(row, col);
                     mineField.Add(position, new Cell(position, CellType.Closed));                    
                 }
             }
@@ -66,9 +66,9 @@ namespace Akimov.MinerMVP.Models {
             OnModelUpdated();
         }
 
-        private void GenerateBombs() {            
+        void GenerateBombs() {            
             int bombCount = (int) Math.Round(settings.Rows * settings.Columns * MineFieldConstants.PERCENT_FACTOR * settings.BombRatio);
-            List<Сoordinates> coordinates = new List<Сoordinates>(mineField.Keys);
+            List<Coordinates> coordinates = new List<Coordinates>(mineField.Keys);
             while (bombCount > 0) {
                 int index = random.Next(coordinates.Count - 1);
                 bombs.Add(coordinates.ElementAt(index));
@@ -109,7 +109,7 @@ namespace Akimov.MinerMVP.Models {
         }
      
         void OpenCell(Cell cell) {
-            if (bombs.Contains(cell.Position)) {
+            if (bombs.Contains(cell.Coordinates)) {
                 cell.CellType = CellType.Bomb;
                 return;
             }
@@ -126,32 +126,36 @@ namespace Akimov.MinerMVP.Models {
         }
 
         int GetBombCount(HashSet<Cell> cells) {
-            return cells.Where(c => bombs.Contains(c.Position)).Count();
+            return cells.Where(c => bombs.Contains(c.Coordinates)).Count();
         }
 
         IEnumerable<Cell> GetClosedCell(HashSet<Cell> cells) {
             return cells.Where(c => c.CellType == CellType.Closed);
         }
 
-        HashSet<Cell> GetCellsNeighbors(Cell cell) {
-            HashSet<Сoordinates> cellLocations = new HashSet<Сoordinates>();
-            int row = cell.Position.Row;
-            int column = cell.Position.Column;
-            for (int r = row - 1; r <= row + 1; r++) {
-                cellLocations.Add(new Сoordinates(r, column - 1));
-                if (r != row) {
-                    cellLocations.Add(new Сoordinates(r, column));
-                }
-                cellLocations.Add(new Сoordinates(r, column + 1));
-            }
+        HashSet<Cell> GetCellsNeighbors(Cell cell) {            
             HashSet<Cell> cells = new HashSet<Cell>();
-            foreach (Сoordinates pos in cellLocations) {
+            foreach (Coordinates pos in GenerateNeighborsLocations(cell.Coordinates)) {
                 Cell candidateCell;
                 if (mineField.TryGetValue(pos, out candidateCell)) {
                     cells.Add(candidateCell);
                 }
             }
             return cells;
-        }        
+        }
+
+        HashSet<Coordinates> GenerateNeighborsLocations(Coordinates coordinates) {
+            HashSet<Coordinates> neighborsLocations = new HashSet<Coordinates>();
+            int row = coordinates.Row;
+            int column = coordinates.Column;
+            for (int r = row - 1; r <= row + 1; r++) {
+                neighborsLocations.Add(new Coordinates(r, column - 1));
+                if (r != row) {
+                    neighborsLocations.Add(new Coordinates(r, column));
+                }
+                neighborsLocations.Add(new Coordinates(r, column + 1));
+            }
+            return neighborsLocations;
+        }
     }
 }
