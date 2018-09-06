@@ -1,80 +1,84 @@
-﻿using Akimov.MinerMVP.Models;
+﻿using System;
+using Akimov.MinerMVP.Models;
 using Akimov.MinerMVP.Views;
 
 namespace Akimov.MinerMVP.Presenters {
     class MinerPresenter : IMinerPresenter {
-        IMinerForm view;
-        IGameOverForm gameOverView;
+        IMinerForm mineFieldForm;
+        IGameOverForm gameOverForm;
         IMinerModel model;
-        MineFieldSettings settings;
+        MineFieldSettings gameSettings;
 
-        public MinerPresenter(IMinerForm minerView) {
-            this.view = minerView;
-            this.gameOverView = new GameOverForm();
-            this.model = new MinerModel();
-            settings = new MineFieldSettings();
+        public MinerPresenter(IMinerForm minerForm) {
+            mineFieldForm = minerForm;
+            gameOverForm = new GameOverForm(); 
+            model = new MinerModel();
+            gameSettings = new MineFieldSettings();
             SubscribeMenuEvent();
         }
 
-        public void Start() {
-            UnSubscribeCurrentGameEvent();
+        public void Start() {            
             SubscribeCurrentGameEvent();
-            view.StartNewGame(settings);
-            model.Start(settings);            
+            mineFieldForm.StartNewGame(gameSettings);
+            model.Start(gameSettings);            
         }
 
-        void View_CellAction(object sender, CellActionArgs e) {
+        void CellAction(object sender, CellActionArgs e) {
             model.CellAction(e.Row, e.Col, e.CellActionType);
         }
 
         void SubscribeMenuEvent() {
-            view.NewGame += View_NewGameStart;
-            view.Settings += View_SettingsOpen;
-            view.Exit += View_Exit;
+            mineFieldForm.NewGame += NewGame;
+            mineFieldForm.Settings += Settings;
+            mineFieldForm.Exit += Exit;
         }
-
-        void View_Exit(object sender, System.EventArgs e) {
-            UnSubscribeCurrentGameEvent();
-            UnSubscribeMenuEvent();
-        }
-
-        void SubscribeCurrentGameEvent() {
-            view.CellAction += View_CellAction;            
-            model.ModelUpdated += Model_ModelUpdated;
-            model.GameOver += Model_GameOver;
-        }
-        void UnSubscribeCurrentGameEvent() {
-            view.CellAction -= View_CellAction;            
-            model.ModelUpdated -= Model_ModelUpdated;
-            model.GameOver -= Model_GameOver;
-        }
-
-        void View_NewGameStart(object sender, System.EventArgs e) {
+                        
+        void NewGame(object sender, System.EventArgs e) {
             Start();
         }
 
-        void View_SettingsOpen(object sender, System.EventArgs e) {
-            SettingForm settingView = new SettingForm(settings, SetSettings);
-            settingView.ShowDialog();
+        void Settings(object sender, System.EventArgs e) {
+            Action<MineFieldSettings> callback = SetSettings;
+            SettingForm settingForm = new SettingForm(gameSettings, callback);
+            settingForm.ShowDialog();
         }
 
-        void UnSubscribeMenuEvent() {            
-            view.Settings -= View_SettingsOpen;
-            view.NewGame -= View_NewGameStart;            
+        void Exit(object sender, System.EventArgs e) {            
+            UnSubscribeAllEvent();
         }
 
-        void Model_GameOver(object sender, GameOverArgs e) {
+        void GameOver(object sender, GameOverArgs e) {
             UnSubscribeCurrentGameEvent();
-            gameOverView.ShowGameOver(e.GameOverType);
-            view.GameOver();
+            mineFieldForm.GameOver();
+            gameOverForm.ShowGameOver(e.GameOverType);                    
         }
 
-        void Model_ModelUpdated(object sender, ModelUpdatedArgs e) {
-            view.MineFieldUpdate(e.UpdatedCells);
+        void ModelUpdated(object sender, ModelUpdatedArgs e) {
+            mineFieldForm.MineFieldUpdate(e.UpdatedCells);
         }
 
         void SetSettings(MineFieldSettings settings) {
-            this.settings = settings;
-        }        
+            this.gameSettings = settings;
+        }
+
+        void SubscribeCurrentGameEvent() {
+            UnSubscribeCurrentGameEvent();
+            mineFieldForm.CellAction += CellAction;         
+            model.ModelUpdated += ModelUpdated;         
+            model.GameOver += GameOver;
+        }
+
+        void UnSubscribeCurrentGameEvent() {
+            mineFieldForm.CellAction -= CellAction;
+            model.ModelUpdated -= ModelUpdated;
+            model.GameOver -= GameOver;
+        }
+
+        void UnSubscribeAllEvent() {            
+            mineFieldForm.NewGame -= NewGame;
+            mineFieldForm.Settings -= Settings;
+            mineFieldForm.Exit -= Exit;
+            UnSubscribeCurrentGameEvent();
+        }
     }
 }
